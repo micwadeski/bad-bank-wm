@@ -2,7 +2,6 @@ var express = require('express');
 var app     = express();
 var cors    = require('cors');
 var dal     = require('./dal.js');
-const e = require('express');
 const path = require('path');
 
 // used to serve static files from public directory

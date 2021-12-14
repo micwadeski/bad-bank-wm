@@ -3,11 +3,12 @@ const url = "mongodb+srv://wmichalski:malarkeys@cluster0.qnxid.mongodb.net/badBa
 let db = null;
 
 // connect to mongo
-MongoClient.connect(process.env.MONGODB_URL || url, { useUnifiedTopology: true }, function (err, client) {
+MongoClient.connect(process.env.MONGODB_URI || url, { useUnifiedTopology: true }, function (err, client) {
     console.log("Connected successfully to db server");
-
+    console.log(err);
     // connect to myproject database
     db = client.db('badBank');
+    console.log(err);
 });
 
 // create user account using the collection.insertOne function
