@@ -3,10 +3,14 @@ var app     = express();
 var cors    = require('cors');
 var dal     = require('./dal.js');
 const e = require('express');
+const path = require('path');
 
 // used to serve static files from public directory
 app.use(express.static('public'));
 app.use(cors());
+
+
+
 
 // create user account
 app.get('/account/create/:name/:email/:password', function (req, res) {
@@ -98,8 +102,17 @@ app.get('/account/all', function (req, res) {
     });
 });
 
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('bad-bank-main/build'))
+// Heroku server 
+if(process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, '/build')));
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, 'build', 'index.html'));
+    })
+    } else {
+        app.get('/', (req, res) => {
+            res.send('Api running');
+        })
 }
 
 // var port = 8080;
@@ -107,7 +120,8 @@ if (process.env.NODE_ENV === 'production') {
 // console.log('Running on port: ' + port);
 
 let port = process.env.PORT;
-if (port == null || port == "") {
-  port = 8080;
-}
+// Un-comment out the follow lines to run locally
+// if (port == null || port == "") {
+//   port = 8080;
+// }
 app.listen(port);
